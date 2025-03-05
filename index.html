@@ -1,547 +1,97 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UniHub - Профориентация</title>
-    <style>
-        :root {
-            --primary-color: #003366;
-            --accent-color: #FFD700;
-            --bg-color: #ffffff;
-            --text-color: #222222;
-            --card-bg: #f8f9fa;
-            --shadow: 0 2px 8px rgba(0,0,0,0.1);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        body.dark {
-            --bg-color: #1a1a1a;
-            --text-color: #e0e0e0;
-            --primary-color: #2c3e50;
-            --card-bg: #2d2d2d;
-            --shadow: 0 2px 8px rgba(255,255,255,0.1);
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0 0 60px;
-            background: var(--bg-color);
-            color: var(--text-color);
-            transition: var(--transition);
-        }
-
-        header {
-            background: var(--primary-color);
-            padding: 1rem;
-            position: sticky;
-            top: 0;
-            box-shadow: var(--shadow);
-            z-index: 1000;
-        }
-
-        .controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            gap: 1rem;
-        }
-
-        nav ul {
-            display: flex;
-            gap: 1.5rem;
-            padding: 0;
-            margin: 0;
-            list-style: none;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem;
-            border-radius: 4px;
-            transition: background 0.2s;
-        }
-
-        nav a:hover {
-            background: rgba(255,255,255,0.1);
-        }
-
-        .uni-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            padding: 1rem 0;
-        }
-
-        .uni-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: var(--transition);
-            border: 1px solid transparent;
-        }
-
-        .uni-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow);
-            border-color: var(--accent-color);
-        }
-
-        .uni-image {
-            height: 200px;
-            overflow: hidden;
-            border-radius: 12px 12px 0 0;
-        }
-
-        .uni-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s;
-        }
-
-        .uni-card:hover .uni-image img {
-            transform: scale(1.05);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(3px);
-            z-index: 2000;
-            animation: fadeIn 0.3s;
-        }
-
-        .modal-content {
-            background: var(--bg-color);
-            max-width: 600px;
-            margin: 2rem auto;
-            padding: 2rem;
-            border-radius: 12px;
-            position: relative;
-            animation: slideIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideIn {
-            from { transform: translateY(-50px); }
-            to { transform: translateY(0); }
-        }
-
-        .close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        footer {
-            background: var(--primary-color);
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-
-        .hidden { display: none; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniHub - Профориентация</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <div class="logo">UniHub</div>
-        <div class="controls">
-            <nav>
-                <ul>
-                    <li><a href="#test">Тест</a></li>
-                    <li><a href="#professions">Профессии</a></li>
-                    <li><a href="#universities">Вузы</a></li>
-                    <li><button id="profile-btn">👤 Профиль</button></li>
-                </ul>
-            </nav>
-            <button class="theme-switch">🌙</button>
-        </div>
-    </header>
-
-    <!-- Тест -->
-    <section id="test">
-        <h2>Профориентационный тест</h2>
-        <form id="career-test">
-            <div class="question">
-                <p>1. Какие задачи вам нравятся?</p>
-                <label><input type="radio" name="q1" value="tech"> Технические</label>
-                <label><input type="radio" name="q1" value="science"> Научные</label>
-                <label><input type="radio" name="q1" value="social"> Социальные</label>
-                <label><input type="radio" name="q1" value="creative"> Творческие</label>
-            </div>
-            
-            <div class="question">
-                <p>2. Какая сфера вас привлекает?</p>
-                <label><input type="radio" name="q2" value="it"> IT</label>
-                <label><input type="radio" name="q2" value="engineering"> Инженерия</label>
-                <label><input type="radio" name="q2" value="education"> Образование</label>
-                <label><input type="radio" name="q2" value="research"> Наука</label>
-            </div>
-            
-            <button type="submit">Узнать результат</button>
-        </form>
-    </section>
-
-    <!-- Результаты -->
-    <section id="results" class="hidden">
-        <h2>Рекомендации</h2>
-        <div id="result-text"></div>
-        <div id="uni-list" class="uni-grid"></div>
-        <button onclick="saveResult()">Сохранить результат</button>
-    </section>
-
-    <!-- Вузы -->
-    <section id="universities">
-        <h2>Рейтинг вузов Москвы (2025)</h2>
-        <div class="uni-filters">
-            <select id="uni-filter">
-                <option value="all">Все направления</option>
-                <option value="tech">Технические</option>
-                <option value="science">Научные</option>
-                <option value="social">Социальные</option>
-                <option value="creative">Творческие</option>
-            </select>
-        </div>
-        <div class="uni-grid" id="all-unis"></div>
-    </section>
-
-    <!-- Модальные окна -->
-    <div class="modal" id="uni-modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3 id="uni-modal-title"></h3>
-            <div class="uni-image">
-                <img id="uni-modal-image" src="" alt="">
-            </div>
-            <div class="uni-details">
-                <p><strong>Направления:</strong> <span id="uni-programs"></span></p>
-                <p><strong>Описание:</strong> <span id="uni-info"></span></p>
-                <p><strong>Бюджетных мест:</strong> <span id="uni-budget"></span></p>
-            </div>
-            <button onclick="addToFavorites(currentUni.name)">❤️ Избранное</button>
-        </div>
+  <header>
+    <div class="logo">UniHub</div>
+    <div class="controls">
+      <nav>
+        <ul>
+          <li><a href="#test">Тест</a></li>
+          <li><a href="#professions">Профессии</a></li>
+          <li><a href="#universities">Вузы</a></li>
+          <li><button id="profile-btn">👤 Профиль</button></li>
+        </ul>
+      </nav>
+      <button class="theme-switch">🌙</button>
     </div>
+  </header>
 
-    <div class="modal" id="profile-modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3>Мой профиль</h3>
-            <div id="saved-results"></div>
-            <h4>Избранное</h4>
-            <div id="favorites"></div>
-        </div>
+  <!-- Профориентационный тест -->
+  <section id="test">
+    <h2>Профориентационный тест</h2>
+    <!-- Начальный экран теста -->
+    <div id="test-start">
+      <button id="start-test-btn">Начать</button>
     </div>
+    <!-- Форма теста, изначально скрыта -->
+    <form id="career-test" class="hidden">
+      <div id="questions-container">
+        <!-- Вопросы будут сгенерированы динамически -->
+      </div>
+      <button type="submit">Узнать результат</button>
+    </form>
+  </section>
 
-    <footer>
-        <p>© 2024 UniHub. Все права защищены.</p>
-    </footer>
+  <!-- Результаты теста -->
+  <section id="results" class="hidden">
+    <h2>Результаты теста</h2>
+    <div id="result-text"></div>
+    <div id="uni-list" class="uni-grid"></div>
+    <button onclick="saveResult()">Сохранить результат</button>
+  </section>
 
-    <script>
-        // Данные вузов
-        const universities = [
-    {
-        name: "Московский государственный университет им. М.В. Ломоносова (МГУ)",
-        type: "science",
-        image: "https://upload.wikimedia.org/wikipedia/commons/5/5a/Moscow_State_University_1.jpg",
-        programs: ["Естественные науки", "Математика", "Физика", "Экономика", "IT", "Юриспруденция"],
-        info: "Первый и крупнейший вуз России, известный фундаментальным подходом к науке.",
-        budget: 3952,
-        rating: 9.8
-    },
-    {
-        name: "Московский государственный технический университет им. Н.Э. Баумана (МГТУ)",
-        type: "tech",
-        image: "https://upload.wikimedia.org/wikipedia/commons/7/7d/Bauman_Moscow_State_Technical_University-8.jpg",
-        programs: ["Инженерия", "Машиностроение", "Робототехника", "Информационные технологии"],
-        info: "Ведущий технический университет с современными лабораториями.",
-        budget: 2500,
-        rating: 9.6
-    },
-    {
-        name: "Московский государственный институт международных отношений (МГИМО)",
-        type: "international",
-        image: "https://upload.wikimedia.org/wikipedia/commons/4/4f/MGIMO_2015-04-18.jpg",
-        programs: ["Международные отношения", "Дипломатия", "Международное право", "Политология"],
-        info: "Элитный вуз для подготовки дипломатов и международных экспертов.",
-        budget: 1200,
-        rating: 9.7
-    },
-    {
-        name: "Национальный исследовательский университет «Высшая школа экономики» (ВШЭ)",
-        type: "economics",
-        image: "https://upload.wikimedia.org/wikipedia/commons/6/6e/HSE_main_building_2017.jpg",
-        programs: ["Экономика", "Социология", "Бизнес-информатика", "Дизайн"],
-        info: "Лидер в области социально-экономического образования.",
-        budget: 3500,
-        rating: 9.5
-    },
-    {
-        name: "Российский университет дружбы народов (РУДН)",
-        type: "international",
-        image: "https://upload.wikimedia.org/wikipedia/commons/0/0f/RUDN_University_2013-06-22_1.jpg",
-        programs: ["Лингвистика", "Медицина", "Экономика", "Юриспруденция"],
-        info: "Университет с мультикультурной средой и программами на 7 языках.",
-        budget: 2800,
-        rating: 9.3
-    },
-    {
-        name: "Первый Московский государственный медицинский университет им. И.М. Сеченова)",
-        type: "medical",
-        image: "https://upload.wikimedia.org/wikipedia/commons/6/6e/I.M._Sechenov_First_MSMU_14-2015_img11.jpg",
-        programs: ["Лечебное дело", "Стоматология", "Фармация", "Биомедицина"],
-        info: "Главный медицинский вуз страны с клиническими базами.",
-        budget: 1800,
-        rating: 9.4
-    },
-    {
-        name: "Российская академия народного хозяйства и государственной службы (РАНХиГС)",
-        type: "management",
-        image: "https://upload.wikimedia.org/wikipedia/commons/5/5a/RANEPA_Building_on_Vernadskogo_Prospekt.jpg",
-        programs: ["Государственное управление", "Менеджмент", "Юриспруденция"],
-        info: "Подготовка управленцев для госслужбы и бизнеса.",
-        budget: 2200,
-        rating: 9.2
-    },
-    {
-        name: "Московский государственный академический художественный институт им. В.И. Сурикова)",
-        type: "art",
-        image: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Surikov_Institute_2014.jpg",
-        programs: ["Живопись", "Графика", "Скульптура", "Архитектура"],
-        info: "Ведущий художественный вуз с вековыми традициями.",
-        budget: 800,
-        rating: 9.1
-    },
-    {
-        name: "Московский финансово-юридический университет",
-        type: "law",
-        image: "https://images.unsplash.com/photo-1588072432836-e10032774350",
-        programs: ["Финансы", "Юриспруденция", "Экономическое право"],
-        info: "Специализация на юридическо-экономическом профиле.",
-        budget: 1500,
-        rating: 8.9
-    },
-    {
-        name: "Национальный исследовательский технологический университет «МИСиС»",
-        type: "tech",
-        image: "https://upload.wikimedia.org/wikipedia/commons/8/8a/NUST_MISiS_2.JPG",
-        programs: ["Материаловедение", "Нанотехнологии", "Горное дело"],
-        info: "Передовые исследования в области материаловедения.",
-        budget: 2000,
-        rating: 9.0
-    },
-    {
-        name: "Московский авиационный институт (МАИ)",
-        type: "tech",
-        image: "https://upload.wikimedia.org/wikipedia/commons/3/34/MAI_Volokolamskoe_51-3.jpg",
-        programs: ["Авиастроение", "Космические системы", "Радиоэлектроника"],
-        info: "Ключевой вуз аэрокосмической отрасли России.",
-        budget: 2300,
-        rating: 9.3
-    },
-    {
-        name: "Московский политехнический университет",
-        type: "tech",
-        image: "https://upload.wikimedia.org/wikipedia/commons/0/0b/Moscow_Polytechnic_University_01.jpg",
-        programs: ["Робототехника", "Цифровое производство", "Транспортный дизайн"],
-        info: "Интеграция инженерии и креативных технологий.",
-        budget: 2100,
-        rating: 8.8
-    },
-    {
-        name: "Московский энергетический институт (МЭИ)",
-        type: "tech",
-        image: "https://upload.wikimedia.org/wikipedia/commons/0/07/MEI_main_building.jpg",
-        programs: ["Электроэнергетика", "Теплоэнергетика", "Альтернативная энергетика"],
-        info: "Лидер в подготовке энергетиков и электротехников.",
-        budget: 1900,
-        rating: 8.7
-    },
-    {
-        name: "Российский государственный гуманитарный университет (РГГУ)",
-        type: "humanities",
-        image: "https://upload.wikimedia.org/wikipedia/commons/0/00/RGGU_2015.jpg",
-        programs: ["История", "Философия", "Культурология"],
-        info: "Крупнейший центр гуманитарного образования.",
-        budget: 1700,
-        rating: 8.6
-    },
-    {
-        name: "Московский педагогический государственный университет (МПГУ)",
-        type: "education",
-        image: "https://upload.wikimedia.org/wikipedia/commons/7/7f/MPGU_2015-04-18.jpg",
-        programs: ["Педагогика", "Психология", "Иностранные языки"],
-        info: "Старейший педагогический вуз с 150-летней историей.",
-        budget: 1600,
-        rating: 8.5
-    },
-    {
-        name: "Московский государственный юридический университет им. О.Е. Кутафина (МГЮА)",
-        type: "law",
-        image: "https://upload.wikimedia.org/wikipedia/commons/5/5a/MSAL_2015-04-18.jpg",
-        programs: ["Юриспруденция", "Международное право", "Уголовное право"],
-        info: "Ведущий юридический вуз с акцентом на практику.",
-        budget: 1300,
-        rating: 9.4
-    },
-    {
-        name: "Государственный университет управления (ГУУ)",
-        type: "management",
-        image: "https://upload.wikimedia.org/wikipedia/commons/4/49/Guu.jpg",
-        programs: ["Менеджмент", "Экономика", "Управление персоналом"],
-        info: "Подготовка топ-менеджеров для бизнеса и госсектора.",
-        budget: 1400,
-        rating: 8.7
-    },
-    {
-        name: "Московский государственный строительный университет (МГСУ)",
-        type: "engineering",
-        image: "https://upload.wikimedia.org/wikipedia/commons/2/2d/MGSU_2015-04-18.jpg",
-        programs: ["Архитектура", "Строительство", "Градостроительство"],
-        info: "Лидер в области строительных технологий и урбанистики.",
-        budget: 1800,
-        rating: 8.4
-    },
-    {
-        name: "Российский государственный социальный университет (РГСУ)",
-        type: "social",
-        image: "https://upload.wikimedia.org/wikipedia/commons/3/36/Russian_State_Social_University.jpg",
-        programs: ["Социальная работа", "Психология", "Социология"],
-        info: "Профильная подготовка социальных работников и психологов.",
-        budget: 1100,
-        rating: 8.3
-    },
-    {
-        name: "Российский государственный университет нефти и газа им. И.М. Губкина",
-        type: "engineering",
-        image: "https://upload.wikimedia.org/wikipedia/commons/8/8d/Gubkin_University_2015.jpg",
-        programs: ["Нефтегазовое дело", "Химическая технология", "Геология"],
-        info: "Главный вуз для нефтегазовой отрасли России.",
-        budget: 2400,
-        rating: 9.1
-    }
-];
+  <!-- Рейтинг вузов -->
+  <section id="universities">
+    <h2>Рейтинг вузов Москвы (2025)</h2>
+    <div class="uni-filters">
+      <select id="uni-filter">
+        <option value="all">Все направления</option>
+        <option value="tech">Технические</option>
+        <option value="science">Научные</option>
+        <option value="social">Социальные</option>
+        <option value="creative">Творческие</option>
+      </select>
+    </div>
+    <div class="uni-grid" id="all-unis"></div>
+  </section>
 
-        let currentUni = null;
+  <!-- Модальные окна -->
+  <div class="modal" id="uni-modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3 id="uni-modal-title"></h3>
+      <div class="uni-image">
+        <img id="uni-modal-image" src="" alt="">
+      </div>
+      <div class="uni-details">
+        <p><strong>Направления:</strong> <span id="uni-programs"></span></p>
+        <p><strong>Описание:</strong> <span id="uni-info"></span></p>
+        <p><strong>Бюджетных мест:</strong> <span id="uni-budget"></span></p>
+      </div>
+      <button onclick="addToFavorites(currentUni.name)">❤️ Избранное</button>
+    </div>
+  </div>
 
-        // Инициализация
-        document.addEventListener('DOMContentLoaded', () => {
-            loadUniversities();
-            setupEventListeners();
-            initTheme();
-        });
+  <div class="modal" id="profile-modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>Мой профиль</h3>
+      <div id="saved-results"></div>
+      <h4>Избранное</h4>
+      <div id="favorites"></div>
+    </div>
+  </div>
 
-        // Загрузка вузов
-        function loadUniversities() {
-            const container = document.getElementById('all-unis');
-            container.innerHTML = universities.map(uni => `
-                <div class="uni-card" onclick="openUniModal('${uni.name}')">
-                    <div class="uni-image">
-                        <img src="${uni.image}" alt="${uni.name}">
-                    </div>
-                    <div class="uni-content">
-                        <h4>${uni.name}</h4>
-                        <p class="preview-info">${uni.info}</p>
-                        <div class="uni-meta">
-                            <span class="uni-rating">★ ${uni.rating}</span>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
+  <footer>
+    <p>© 2025 UniHub. Все права защищены.</p>
+  </footer>
 
-        // Открытие модального окна вуза
-        function openUniModal(uniName) {
-            currentUni = universities.find(u => u.name === uniName);
-            document.getElementById('uni-modal-title').textContent = currentUni.name;
-            document.getElementById('uni-modal-image').src = currentUni.image;
-            document.getElementById('uni-programs').textContent = currentUni.programs.join(', ');
-            document.getElementById('uni-info').textContent = currentUni.info;
-            document.getElementById('uni-budget').textContent = currentUni.budget;
-            document.getElementById('uni-modal').style.display = 'block';
-        }
-
-        // Закрытие модальных окон
-        document.querySelectorAll('.close').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
-            });
-        });
-
-        // Обработка теста
-        document.getElementById('career-test').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const answers = new FormData(e.target);
-            const result = { tech: 0, science: 0, social: 0, creative: 0 };
-            
-            answers.forEach(answer => {
-                if (result.hasOwnProperty(answer)) result[answer] += 1;
-            });
-            
-            const maxType = Object.keys(result).reduce((a, b) => result[a] > result[b] ? a : b);
-            showResults(maxType);
-        });
-
-        // Показать результаты теста
-        function showResults(type) {
-            document.getElementById('test').classList.add('hidden');
-            document.getElementById('results').classList.remove('hidden');
-            
-            const filteredUnis = universities.filter(uni => 
-                uni.type === type || 
-                uni.programs.some(p => p.toLowerCase().includes(type))
-            );
-            
-            document.getElementById('result-text').innerHTML = `
-                <h3>Рекомендуем: ${type.charAt(0).toUpperCase() + type.slice(1)} направления</h3>
-            `;
-            
-            document.getElementById('uni-list').innerHTML = filteredUnis.map(uni => `
-                <div class="uni-card">
-                    <div class="uni-image">
-                        <img src="${uni.image}" alt="${uni.name}">
-                    </div>
-                    <h4>${uni.name}</h4>
-                    <p>${uni.info}</p>
-                </div>
-            `).join('');
-        }
-
-        // Сохранение темы
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.body.className = savedTheme;
-            document.querySelector('.theme-switch').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-        }
-
-        // Переключение темы
-        document.querySelector('.theme-switch').addEventListener('click', () => {
-            const newTheme = document.body.className === 'dark' ? 'light' : 'dark';
-            localStorage.setItem('theme', newTheme);
-            document.body.className = newTheme;
-            document.querySelector('.theme-switch').textContent = newTheme === 'dark' ? '☀️' : '🌙';
-        });
-
-        // Остальные функции...
-    </script>
+  <script src="script.js"></script>
 </body>
 </html>

@@ -198,6 +198,16 @@ section {
     color: var(--text-color);
 }
 
+/* Стили для теста */
+.question {
+    margin-bottom: 1.5rem;
+}
+
+.options label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
 /* Анимации */
 @keyframes fadeIn {
     from { opacity: 0; }
@@ -227,7 +237,7 @@ button:hover {
 }
 
 input, select {
-    padding: 0.5rem;
+padding: 0.5rem;
     border-radius: 6px;
     border: 1px solid #ddd;
     background: var(--card-bg);
@@ -251,6 +261,53 @@ input, select {
 
 .toast.show {
     right: 20px;
+}
+
+/* Футер */
+footer {
+    background: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .controls {
+        flex-direction: column;
+    }
+
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .uni-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content {
+        width: 90%;
+        padding: 1rem;
+    }
+
+    input, select {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .uni-image {
+        height: 150px;
+    }
+    
+    .uni-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
 }
 
 /* Футер */
